@@ -1,7 +1,6 @@
 public class MultiThreadTimerApp {
-    public static void main(String[] args) {
-        ConsoleCommandsInt consoleCommands = new ConsoleCommands();
+    public static void main(String[] args){
         ThreadTimerApp threadTimer = new ThreadTimerApp();
-        threadTimer.start(consoleCommands);
+        threadTimer.start();
     }
 }
