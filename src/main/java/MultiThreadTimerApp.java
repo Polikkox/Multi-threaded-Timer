@@ -1,4 +1,4 @@
-public class MultiTheadTimerApp {
+public class MultiThreadTimerApp {
     public static void main(String[] args) {
 
     }
