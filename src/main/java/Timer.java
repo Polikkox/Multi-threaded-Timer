@@ -27,6 +27,9 @@ public class Timer implements Runnable{
             }
         }
     }
+    public void interruptThread(){
+        Thread.currentThread().interrupt();
+    }
 
     public synchronized void resumeThread(){
         long endTime = System.nanoTime();
