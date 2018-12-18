@@ -24,12 +24,16 @@ public class ThreadTimerApp {
                 exitThreads();
             }
             else if(input.equals("check")){
-                checkALlThreads();
+                checkThread(command);
+            }
+            else if(input.equals("pause")){
+                pauseThread(command);
+            }
+            else if(input.equals("resume")){
+                resumeThread(command);
             }
         }
     }
-
-
 
     private void runNewThread(String input) throws NameAlreadyBoundException {
         String threadName = ParseInput.getValue(input);
@@ -50,9 +54,40 @@ public class ThreadTimerApp {
         this.timerList.clear();
     }
 
-    private void checkALlThreads(){
-        peekThread();
+    private void checkThread(String input){
+        String[] anyWhiteSpace = input.split(" ");
+        System.out.println(anyWhiteSpace.length);
+
+        if(anyWhiteSpace.length == 2){
+            String threadName = ParseInput.getValue(input).trim();
+            peekThread(threadName);
+            this.timerList.stream()
+                    .filter(thr -> thr.getName().equals(threadName))
+                    .forEach(System.out::println);
+            return;
+        }
+        peekThreads();
         this.timerList.forEach(System.out::println);
+    }
+
+
+    private void pauseThread(String command) {
+        String threadName = ParseInput.getValue(command).trim();
+        for(Timer timer : this.timerList){
+            if(timer.getName().equals(threadName)){
+                timer.pauseTime();
+            }
+        }
+
+    }
+
+    private void resumeThread(String command){
+        String threadName = ParseInput.getValue(command).trim();
+        for(Timer timer : this.timerList){
+            if(timer.getName().equals(threadName)){
+                timer.resumeThread();
+            }
+        }
     }
 
     private void jointThreads(){
@@ -64,8 +99,18 @@ public class ThreadTimerApp {
             }
         });
     }
-    private void peekThread(){
+
+    private void peekThreads(){
         this.timerList.forEach(s->s.peekThread());
+    }
+
+    private void peekThread(String name) {
+        for(Timer timer : this.timerList){
+            if(timer.getName().equals(name)){
+                timer.peekThread();
+            }
+        }
+
     }
 
     private void checkIsThreadExist(String threadName) throws NameAlreadyBoundException {

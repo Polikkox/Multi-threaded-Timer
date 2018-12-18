@@ -4,29 +4,50 @@ public class Timer implements Runnable{
     private static int idThread = 0;
     private long startTime;
     private long elapsedTime;
+    private long pause = 0;
+    private volatile boolean isThreadRun = true;
 
     public Timer(String name) {
         this.name = name;
-        id = idThread++;
+        this.id = this.idThread++;
     }
 
     @Override
     public void run() {
         startTime = System.nanoTime();
         while (true){
-            try {
-                Thread.sleep(1000);
-            }
-            catch (InterruptedException e) {
-                stopTime();
-                throw new RuntimeException(e);
+            if(this.isThreadRun) {
+                try {
+                    Thread.sleep(1000);
+                }
+                catch (InterruptedException e) {
+                    stopTime();
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
 
+    public synchronized void resumeThread(){
+        long endTime = System.nanoTime();
+        this.isThreadRun = true;
+        this.startTime = startTime + (endTime - pause);
+        this.pause = 0;
+    }
+
     public void stopTime(){
-        Long endTime = System.nanoTime();
-        elapsedTime = (endTime - startTime) / 1000000000;
+        long endTime = System.nanoTime();
+
+        if(this.pause != 0){
+            this.elapsedTime = ((endTime - this.startTime) - (endTime - this.pause)) / 1000000000;
+            return;
+        }
+        this.elapsedTime = (endTime - this.startTime) / 1000000000;
+    }
+
+    public void pauseTime(){
+        this.isThreadRun = false;
+        this.pause = System.nanoTime();
     }
 
     public String toString(){
@@ -38,6 +59,6 @@ public class Timer implements Runnable{
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 }
