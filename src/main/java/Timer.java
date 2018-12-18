@@ -37,4 +37,7 @@ public class Timer implements Runnable{
         stopTime();
     }
 
+    public String getName() {
+        return name;
+    }
 }
