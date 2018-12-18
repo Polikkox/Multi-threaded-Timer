@@ -33,9 +33,7 @@ public class ThreadTimerApp {
 
     private void runNewThread(String input) throws NameAlreadyBoundException {
         String threadName = ParseInput.getValue(input);
-        if(checkIsThreadExist(threadName)){
-            throw new NameAlreadyBoundException("Thread with given name already exist");
-        }
+        checkIsThreadExist(threadName);
 
         Timer timer = new Timer(threadName);
         Thread thread = new Thread(timer, threadName);
@@ -45,20 +43,20 @@ public class ThreadTimerApp {
     }
 
     private void exitThreads() {
-        threadList.forEach(thread -> thread.interrupt());
+        this.threadList.forEach(thread -> thread.interrupt());
 
         jointThreads();
-        timerList.forEach(System.out::println);
-        timerList.clear();
+        this.timerList.forEach(System.out::println);
+        this.timerList.clear();
     }
 
     private void checkALlThreads(){
         peekThread();
-        timerList.forEach(System.out::println);
+        this.timerList.forEach(System.out::println);
     }
 
     private void jointThreads(){
-        threadList.forEach(s-> {
+        this.threadList.forEach(s-> {
             try {
                 s.join();
             } catch (InterruptedException e) {
@@ -67,11 +65,14 @@ public class ThreadTimerApp {
         });
     }
     private void peekThread(){
-        timerList.forEach(s->s.peekThread());
+        this.timerList.forEach(s->s.peekThread());
     }
 
-    private boolean checkIsThreadExist(String threadName) {
-        return timerList.stream()
+    private void checkIsThreadExist(String threadName) throws NameAlreadyBoundException {
+        boolean isThreadExist =  this.timerList.stream()
                 .anyMatch(thr -> thr.getName().equals(threadName.trim()));
+        if(isThreadExist){
+            throw new NameAlreadyBoundException("Thread with given name already exist");
+        }
     }
 }
