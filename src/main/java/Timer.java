@@ -10,8 +10,6 @@ public class Timer implements Runnable{
         id = idThread++;
     }
 
-
-
     @Override
     public void run() {
         startTime = System.nanoTime();
@@ -24,9 +22,8 @@ public class Timer implements Runnable{
                 throw new RuntimeException(e);
             }
         }
-
-
     }
+
     public void stopTime(){
         Long endTime = System.nanoTime();
         elapsedTime = (endTime - startTime) / 1000000000;
@@ -34,6 +31,10 @@ public class Timer implements Runnable{
 
     public String toString(){
         return "Thread : " + this.name + "\nThread id: " + this.id + "\nSeconds: " + this.elapsedTime;
+    }
+
+    public void peekThread(){
+        stopTime();
     }
 
 }
