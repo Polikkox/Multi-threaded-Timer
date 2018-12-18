@@ -52,6 +52,7 @@ public class ThreadTimerApp {
         jointThreads();
         this.timerList.forEach(System.out::println);
         this.timerList.clear();
+        System.out.println("threads received interrupt while sleeping");
     }
 
     private void checkThread(String input){
@@ -76,6 +77,7 @@ public class ThreadTimerApp {
         for(Timer timer : this.timerList){
             if(timer.getName().equals(threadName)){
                 timer.pauseTime();
+                System.out.println(timer.getName() + " is paused");
             }
         }
 
@@ -86,6 +88,7 @@ public class ThreadTimerApp {
         for(Timer timer : this.timerList){
             if(timer.getName().equals(threadName)){
                 timer.resumeThread();
+                System.out.println(timer.getName() + " is unpaused");
             }
         }
     }
