@@ -1,4 +1,4 @@
-****Assignment: Multi-threaded Timer****
+# Assignment: Multi-threaded Timer
 
 
 **Task**
